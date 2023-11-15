@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+.full-screen-div {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  /* Add other styles as needed */
+}
+
+@keyframes circle-in-hesitate {
+  0% {
+    clip-path: circle(0%);
+  }
+  40% {
+    clip-path: circle(40%);
+  }
+  100% {
+    clip-path: circle(125%);
+  }
+}
+
+[transition-style='in:circle:hesitate'] {
+  animation: 2.5s cubic-bezier(0.25, 1, 0.3, 1) circle-in-hesitate both;
+}
+
+@keyframes circle-out-center {
+  from {
+    clip-path: circle(0%);
+  }
+  to {
+    clip-path: circle(125%);
+  }
+}
+
+[transition-style='out:circle:center'] {
+  animation: 2.5s cubic-bezier(0.25, 1, 0.3, 1) circle-out-center both;
+}
+
+@keyframes in-circle-swoop {
+  from {
+    clip-path: var(--circle-top-right-out);
+  }
+  to {
+    clip-path: var(--circle-bottom-right-in);
+  }
+}
+
+[transition-style='in:custom:circle-swoop'] {
+  --transition__duration: 5s;
+  animation-name: in-circle-swoop;
+}
+
+/* timer */
+/* .circular-timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+.mask {
+  clip: rect(0, 200px, 200px, 100px);
+}
+
+.fill {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #3498db;
+  clip: rect(0, 100px, 200px, 0);
+  border-radius: 50%;
+}
+
+.mask.full {
+  transform: rotate(0deg);
+}
+
+.mask.half {
+  transform: rotate(180deg);
+}
+
+.time {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 24px;
+  color: #3498db;
+}
+
+.time span:first-child {
+  font-weight: bold;
+}
+
+.time span:last-child {
+  font-size: 14px;
+} */
