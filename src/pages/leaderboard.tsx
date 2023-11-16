@@ -49,7 +49,7 @@ const Leaderboard = () => {
     } else if (totalScore <= threshold_75) {
       message = 'Almost there! Just a bit more for the confetti. 🎉';
     } else if (totalScore <= threshold_100) {
-      message = "CONGRATULATIONS, You've earned a confetti! 🎊🥳";
+      message = "CONGRATULATIONS, You've earned a confetti! 🎊🎈🥳";
       setIsConfettiActive(true);
       setTimeout(() => {
         setIsConfettiActive(false);

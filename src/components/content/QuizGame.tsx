@@ -213,7 +213,14 @@ const QuizGame: React.FC<QuizGameType> = (props) => {
                     .replace(/&#039;/g, "'")
                     .replace(/&rsquo;/g, '’')
                     .replace(/&quot;/g, '"')
-                    .replace(/&amp;/g, '&')}
+                    .replace(/&amp;/g, '&')
+                    .replace(/&lt;/g, '<')
+                    .replace(/&gt;/g, '>')
+                    .replace(/&nbsp;/g, ' ')
+                    .replace(/&copy;/g, '©')
+                    .replace(/&euro;/g, '€')
+                    .replace(/&reg;/g, '®')
+                    .replace(/&hellip;/g, '…')}
                 </span>
               </div>
               <ul className="py-5">
@@ -232,7 +239,18 @@ const QuizGame: React.FC<QuizGameType> = (props) => {
                     }`}
                   >
                     <label className="p-2 flex items-center w-full justify-between">
-                      {option}
+                      {option
+                        .replace(/&#039;/g, "'")
+                        .replace(/&rsquo;/g, '’')
+                        .replace(/&quot;/g, '"')
+                        .replace(/&amp;/g, '&')
+                        .replace(/&lt;/g, '<')
+                        .replace(/&gt;/g, '>')
+                        .replace(/&nbsp;/g, ' ')
+                        .replace(/&copy;/g, '©')
+                        .replace(/&euro;/g, '€')
+                        .replace(/&reg;/g, '®')
+                        .replace(/&hellip;/g, '…')}
                       {selectedAnswers[currentQuestionIndex] &&
                         selectedAnswers[currentQuestionIndex].answer ===
                           option && (
