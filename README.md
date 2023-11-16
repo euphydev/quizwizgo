@@ -14,7 +14,6 @@ pnpm dev
 bun dev
 ```
 
-
 npm run lint
 
 npm run format
@@ -23,7 +22,7 @@ git status
 
 git add .
 
-git commit 
+git commit
 
 git push
 

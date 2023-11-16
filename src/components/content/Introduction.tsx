@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import { userStore } from '@store/user';
+import Footer from './Footer';
 
 interface IntroductionProps {
   activeModal: (activeModal: string) => void;
@@ -20,7 +21,7 @@ const Introduction: React.FC<IntroductionProps> = ({ activeModal }) => {
   };
 
   return (
-    <div className="flex flex-col lg:w-7/12 place-content-center p-4 pt-52 lg:pt-0">
+    <div className="flex flex-col lg:w-7/12 place-content-center p-4 lg:pt-0">
       <div className="flex flex-col rounded-full">
         <Image
           width={100} // Adjust the width to make it smaller

@@ -1,6 +1,7 @@
 import { gameStore } from '@store/game';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import Footer from './Footer';
 
 const category = [
   { id: 1, category: 'Any Category' },
