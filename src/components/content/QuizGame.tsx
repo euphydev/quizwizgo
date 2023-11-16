@@ -16,6 +16,7 @@ interface Question {
   question: string;
   correct_answer: string;
   incorrect_answers: string[];
+  shuffled_options?: string[];
 }
 
 interface AnswerObject {
@@ -99,9 +100,36 @@ const QuizGame: React.FC<QuizGameType> = (props) => {
     router.push('/leaderboard');
   };
 
+  const shuffleOptionsForQuestions = (questions: Question[]) => {
+    return questions.map((question) => {
+      const options = [...question.incorrect_answers, question.correct_answer];
+      question.shuffled_options = shuffleArray(options);
+      return question;
+    });
+  };
+  const shuffleArray = (array: any) => {
+    let currentIndex = array.length,
+      temporaryValue,
+      randomIndex;
+
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  };
+
   useEffect(() => {
     if (isSuccess) {
-      setQuizData(fetchedQuizData.results);
+      const shuffledQuizData = shuffleOptionsForQuestions(
+        fetchedQuizData.results,
+      );
+      setQuizData(shuffledQuizData);
     }
   }, [props.endpoint, isSuccess, fetchedQuizData]);
 
@@ -224,10 +252,7 @@ const QuizGame: React.FC<QuizGameType> = (props) => {
                 </span>
               </div>
               <ul className="py-5">
-                {[
-                  ...questionData.incorrect_answers,
-                  questionData.correct_answer,
-                ].map((option, optionIndex) => (
+                {questionData.shuffled_options?.map((option, optionIndex) => (
                   <li
                     key={optionIndex}
                     onClick={() => handleSelectedAnswer(option)}

@@ -44,11 +44,11 @@ const Leaderboard = () => {
       message = "No confetti for now, but here's an egg 🥚";
     } else if (totalScore <= threshold_25) {
       message = "You're getting there, but no confetti yet! 🌟";
-    } else if (totalScore <= threshold_50) {
+    } else if (totalScore >= threshold_25 && totalScore <= threshold_50) {
       message = 'Halfway through! No confetti for now. 🎈';
-    } else if (totalScore <= threshold_75) {
+    } else if (totalScore >= threshold_50 && totalScore <= threshold_75) {
       message = 'Almost there! Just a bit more for the confetti. 🎉';
-    } else if (totalScore <= threshold_100) {
+    } else if (totalScore >= threshold_75) {
       message = "CONGRATULATIONS, You've earned a confetti! 🎊🎈🥳";
       setIsConfettiActive(true);
       setTimeout(() => {
