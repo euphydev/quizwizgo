@@ -59,8 +59,8 @@ const SelectAQuizComponent: React.FC<SelectAQuizType> = (props) => {
   });
 
   const handleSelectNumberFunc = (selectedNumber: number) => {
-    if (selectedNumber < 0) {
-      setSelectedNumber(0);
+    if (selectedNumber <= 0) {
+      setSelectedNumber(5);
     } else if (selectedNumber > 50) {
       setSelectedNumber(50);
     } else {

@@ -26,18 +26,35 @@ const defaultSettings: gameSettings = {
 const Leaderboard = () => {
   const [isConfettiActive, setIsConfettiActive] = useState(false);
   const [message, setMessage] = useState('');
+  const [quizSettings, setQuizSettings] = useState<gameSettings>();
+  const [quizResults, setQuizResults] = useState<{
+    totalScore: number;
+    noOfQuestions: number;
+  }>({
+    totalScore: 0,
+    noOfQuestions: 0,
+  });
   const useGameStore = gameStore();
   const router = useRouter();
   const store = userStore();
   const game = gameStore();
 
   useEffect(() => {
+    if (store.userName === '') {
+      router.push('/');
+    }
+
+    setQuizResults({
+      totalScore: useGameStore.totalScore,
+      noOfQuestions: useGameStore.numberOfQuestions,
+    });
+    setQuizSettings(useGameStore.quizSettings);
+
     const totalScore = useGameStore.totalScore;
     const noOfQuestions = Number(useGameStore.numberOfQuestions);
     const threshold_25 = noOfQuestions * 0.25;
     const threshold_50 = noOfQuestions * 0.5;
     const threshold_75 = noOfQuestions * 0.75;
-    const threshold_100 = noOfQuestions * 1;
 
     let message = '';
     if (totalScore === 0) {
@@ -57,14 +74,6 @@ const Leaderboard = () => {
     }
 
     setMessage(message);
-    console.log(
-      'hey',
-      totalScore,
-      noOfQuestions,
-      threshold_25,
-      threshold_50,
-      threshold_75,
-    );
   }, []);
 
   return (
@@ -76,32 +85,28 @@ const Leaderboard = () => {
           {`'`}s score:
         </span>
         <span className="font-bold text-6xl self-center select-none text-yellow">
-          {useGameStore.totalScore}/{useGameStore.numberOfQuestions}
+          {quizResults.totalScore}/{quizResults.noOfQuestions}
         </span>
-        <div className="flex flex-col text-xs lg:flex-row lg:flex-wrap gap-2 lg:justify-center">
-          <div className="w-full lg:w-[45%] bg-main rounded-lg p-3">
-            <span className="">Category: </span>
-            <span className="">
-              {useGameStore.quizSettings.category.category}
-            </span>
+        {quizSettings && (
+          <div className="flex flex-col text-xs lg:flex-row lg:flex-wrap gap-2 lg:justify-center">
+            <div className="w-full lg:w-[45%] bg-main rounded-lg p-3">
+              <span className="">Category: </span>
+              <span className="">{quizSettings.category.category}</span>
+            </div>
+            <div className="w-full lg:w-[45%] bg-main rounded-lg p-3">
+              <span className="">Difficulty: </span>
+              <span className="">{quizSettings.difficulty.difficulty}</span>
+            </div>
+            <div className="w-full lg:w-[45%] bg-main rounded-lg p-3">
+              <span className="">No. of Qs: </span>
+              <span className="">{quizSettings.numberOfQuestions}</span>
+            </div>
+            <div className="w-full lg:w-[45%] bg-main rounded-lg p-3">
+              <span className="">Type: </span>
+              <span className="">{quizSettings.type.type}</span>
+            </div>
           </div>
-          <div className="w-full lg:w-[45%] bg-main rounded-lg p-3">
-            <span className="">Difficulty: </span>
-            <span className="">
-              {useGameStore.quizSettings.difficulty.difficulty}
-            </span>
-          </div>
-          <div className="w-full lg:w-[45%] bg-main rounded-lg p-3">
-            <span className="">No. of Qs: </span>
-            <span className="">
-              {useGameStore.quizSettings.numberOfQuestions}
-            </span>
-          </div>
-          <div className="w-full lg:w-[45%] bg-main rounded-lg p-3">
-            <span className="">Type: </span>
-            <span className="">{useGameStore.quizSettings.type.type}</span>
-          </div>
-        </div>
+        )}
         <span className="font-bold text-3xl self-center text-center select-none">
           {message}
         </span>

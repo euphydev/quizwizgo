@@ -11,7 +11,7 @@ const Introduction: React.FC<IntroductionProps> = ({ activeModal }) => {
   const useStore = userStore();
 
   const handleStartClick = () => {
-    if (useStore.userName !== '') {
+    if (useStore.userName.trim() !== '') {
       activeModal('quiz-settings');
     }
   };
