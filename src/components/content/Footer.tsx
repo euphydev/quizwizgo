@@ -81,7 +81,8 @@ const Footer = () => {
             <div>
               {/* Add additional footer links or information here */}
               <p className="text-sm">
-                &copy; 2023 QuizWizGo. All Rights Reserved.
+                &copy; {new Date().getFullYear()} QuizWizGo. All Rights
+                Reserved.
               </p>
             </div>
           </div>
@@ -153,7 +154,8 @@ const Footer = () => {
             <div>
               {/* Add additional footer links or information here */}
               <p className="text-sm">
-                &copy; 2023 QuizWizGo. All Rights Reserved.
+                &copy; {new Date().getFullYear()} QuizWizGo. All Rights
+                Reserved.
               </p>
             </div>
           </div>
