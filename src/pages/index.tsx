@@ -59,7 +59,7 @@ export default function Home() {
       </Head>
       {activeModal === 'introduction' && (
         <>
-          <div className="bg-main h-screen w-screen lg:flex lg:justify-center">
+          <div className="h-screen w-screen bg-ink lg:flex lg:justify-center">
             <Introduction activeModal={handleStartQuiz} />
           </div>
           <Footer />
@@ -67,7 +67,7 @@ export default function Home() {
       )}
       {activeModal === 'quiz-settings' && (
         <>
-          <div className="bg-main h-screen w-screen lg:flex lg:justify-center">
+          <div className="h-screen w-screen bg-ink lg:flex lg:justify-center">
             <SelectAQuizComponent
               activeModal={handleStartQuiz}
               endPoint={handleLoadQuizData}
@@ -77,7 +77,7 @@ export default function Home() {
         </>
       )}
       {activeModal === 'quiz-game-ready' && endpoint && (
-        <div className="bg-gray-300 h-screen w-screen lg:flex lg:justify-center">
+        <div className="h-screen w-screen bg-ink lg:flex lg:justify-center">
           <QuizGame endpoint={endpoint} />
         </div>
       )}

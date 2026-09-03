@@ -6,6 +6,7 @@ import Confetti from 'react-confetti';
 
 import { gameSettings } from '../../types';
 import Footer from '@components/content/Footer';
+import { FlipTile } from '@components/ui';
 
 const defaultSettings: gameSettings = {
   numberOfQuestions: 10,
@@ -58,15 +59,15 @@ const Leaderboard = () => {
 
     let message = '';
     if (totalScore === 0) {
-      message = "No confetti for now, but here's an egg 🥚";
+      message = "No confetti this round. Here's an egg instead. 🥚";
     } else if (totalScore <= threshold_25) {
-      message = "You're getting there, but no confetti yet! 🌟";
+      message = 'Warming up. Give it another go.';
     } else if (totalScore >= threshold_25 && totalScore <= threshold_50) {
-      message = 'Halfway through! No confetti for now. 🎈';
+      message = 'Halfway there.';
     } else if (totalScore >= threshold_50 && totalScore <= threshold_75) {
-      message = 'Almost there! Just a bit more for the confetti. 🎉';
+      message = 'So close to confetti.';
     } else if (totalScore >= threshold_75) {
-      message = "CONGRATULATIONS, You've earned a confetti! 🎊🎈🥳";
+      message = 'Confetti earned. Nice work. 🎉';
       setIsConfettiActive(true);
       setTimeout(() => {
         setIsConfettiActive(false);
@@ -78,52 +79,57 @@ const Leaderboard = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-5 m-10 justify-center w-3/4">
+      <div className="mx-auto flex w-full max-w-md flex-col items-center gap-6 p-6 text-center">
         {isConfettiActive && <Confetti />}
-        <span className="font-bold text-3xl  text-center self-center select-none">
-          {store.userName}
-          {`'`}s score:
+        <span className="font-sans text-lg text-slate">
+          {store.userName}&apos;s score
         </span>
-        <span className="font-bold text-6xl self-center select-none text-yellow">
-          {quizResults.totalScore}/{quizResults.noOfQuestions}
-        </span>
+        <div className="flex items-end gap-2">
+          <FlipTile
+            value={quizResults.totalScore}
+            digits={2}
+            accent="mint"
+          />
+          <span className="pb-3 font-display text-3xl text-slate">/</span>
+          <span className="pb-1 font-display text-4xl font-bold text-paper">
+            {quizResults.noOfQuestions}
+          </span>
+        </div>
         {quizSettings && (
-          <div className="flex flex-col text-xs lg:flex-row lg:flex-wrap gap-2 lg:justify-center">
-            <div className="w-full lg:w-[45%] bg-main rounded-lg p-3">
-              <span className="">Category: </span>
-              <span className="">{quizSettings.category.category}</span>
+          <div className="flex w-full flex-col gap-2 text-left text-xs sm:flex-row sm:flex-wrap sm:justify-center">
+            <div className="ticket-edge w-full rounded-lg bg-paper p-3 text-ink shadow-ticket sm:w-[45%]">
+              <span className="text-slate">Category </span>
+              <span>{quizSettings.category.category}</span>
             </div>
-            <div className="w-full lg:w-[45%] bg-main rounded-lg p-3">
-              <span className="">Difficulty: </span>
-              <span className="">{quizSettings.difficulty.difficulty}</span>
+            <div className="ticket-edge w-full rounded-lg bg-paper p-3 text-ink shadow-ticket sm:w-[45%]">
+              <span className="text-slate">Difficulty </span>
+              <span>{quizSettings.difficulty.difficulty}</span>
             </div>
-            <div className="w-full lg:w-[45%] bg-main rounded-lg p-3">
-              <span className="">No. of Qs: </span>
-              <span className="">{quizSettings.numberOfQuestions}</span>
+            <div className="ticket-edge w-full rounded-lg bg-paper p-3 text-ink shadow-ticket sm:w-[45%]">
+              <span className="text-slate">Questions </span>
+              <span>{quizSettings.numberOfQuestions}</span>
             </div>
-            <div className="w-full lg:w-[45%] bg-main rounded-lg p-3">
-              <span className="">Type: </span>
-              <span className="">{quizSettings.type.type}</span>
+            <div className="ticket-edge w-full rounded-lg bg-paper p-3 text-ink shadow-ticket sm:w-[45%]">
+              <span className="text-slate">Type </span>
+              <span>{quizSettings.type.type}</span>
             </div>
           </div>
         )}
-        <span className="font-bold text-3xl self-center text-center select-none">
+        <span className="font-display text-2xl font-bold text-paper">
           {message}
         </span>
-        <div className="w-1/2 self-center">
-          <button
-            onClick={() => {
-              store.setUserName('');
-              game.setActiveModal('');
-              game.setQuizSettings(defaultSettings);
-              game.setTotalScore(0);
-              router.push('/');
-            }}
-            className="bg-light w-full font-bold hover:bg-button rounded-md p-1 px-4 text-background"
-          >
-            Try again.
-          </button>
-        </div>
+        <button
+          onClick={() => {
+            store.setUserName('');
+            game.setActiveModal('');
+            game.setQuizSettings(defaultSettings);
+            game.setTotalScore(0);
+            router.push('/');
+          }}
+          className="w-full max-w-xs rounded-lg bg-marquee p-3 font-sans font-semibold text-ink transition-transform hover:bg-marquee-dark active:translate-y-0.5"
+        >
+          Try again
+        </button>
       </div>
       <Footer />
     </>

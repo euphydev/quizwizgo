@@ -9,7 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        poppins: ['Poppins', 'sans-serif'],
+        display: ['"Big Shoulders"', 'sans-serif'],
+        sans: ['"IBM Plex Sans"', 'sans-serif'],
       },
       screens: {
         sm: '640px',
@@ -34,26 +35,20 @@ const config: Config = {
         '9xl': ['8rem', { lineHeight: '1' }],
       },
       colors: {
-        primary: '#2B3499',
-        yellow: '#FF9209',
-        dark: '#111729',
-        'dark-2': '#677489',
-        light: '#FFD099',
         white: '#FFFFFF',
         black: '#000000',
-        background: '#232946',
-        headline: '#fffffe',
-        paragraph: '#b8c1ec',
-        button: '#F8C660',
-        'button-2': '#004643',
-        'button-3': '#ABD1C6',
-        'button-text': '#232946',
-        stroke: '#121629',
-        main: '#004643B2',
-        secondary: '#fffffe',
+        ink: '#14231F',
+        'ink-2': '#1D302A',
+        paper: '#F7F3E8',
+        marquee: '#E8A33D',
+        'marquee-dark': '#C6832A',
+        mint: '#4F9D80',
+        ember: '#C1443C',
+        slate: '#6B7A73',
       },
       boxShadow: {
-        'bottom-right': '0px 0px 28px 0px rgba(21,21,21,0.55)',
+        ticket: '0 1px 0 rgba(20,35,31,0.4), 0 8px 20px -8px rgba(0,0,0,0.5)',
+        tile: 'inset 0 -3px 0 rgba(0,0,0,0.35), 0 6px 14px -6px rgba(0,0,0,0.6)',
       },
     },
 

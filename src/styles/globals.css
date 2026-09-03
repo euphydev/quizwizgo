@@ -76,58 +76,46 @@ body {
   animation-name: in-circle-swoop;
 }
 
-/* timer */
-/* .circular-timer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Flip-tile: the split-flap digit used for the countdown timer and the score reveal. */
+@keyframes flip {
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(-90deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
 }
 
-.circle {
+.flip-tile-digit {
+  animation: flip 0.4s ease-in-out;
+}
+
+/* Ticket surfaces (question card, form panel): a torn/perforated stub edge instead of a plain rounded card. */
+.ticket-edge {
+  position: relative;
+}
+
+.ticket-edge::before {
+  content: '';
   position: absolute;
-  width: 100px;
-  height: 100px;
-  background-color: #eee;
-  border-radius: 50%;
+  top: 0;
+  left: 1.25rem;
+  right: 1.25rem;
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    to right,
+    theme('colors.slate') 0,
+    theme('colors.slate') 6px,
+    transparent 6px,
+    transparent 12px
+  );
 }
 
-.mask {
-  clip: rect(0, 200px, 200px, 100px);
+@media (prefers-reduced-motion: reduce) {
+  .flip-tile-digit {
+    animation: none;
+  }
 }
-
-.fill {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: #3498db;
-  clip: rect(0, 100px, 200px, 0);
-  border-radius: 50%;
-}
-
-.mask.full {
-  transform: rotate(0deg);
-}
-
-.mask.half {
-  transform: rotate(180deg);
-}
-
-.time {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 24px;
-  color: #3498db;
-}
-
-.time span:first-child {
-  font-weight: bold;
-}
-
-.time span:last-child {
-  font-size: 14px;
-} */

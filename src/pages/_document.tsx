@@ -19,7 +19,7 @@ class MyDocument extends Document {
           <meta name="copyright" content="2023 euphydev" />
           <meta name="application-name" content="QuizWizGo" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
             rel="stylesheet"
           />
         </Head>

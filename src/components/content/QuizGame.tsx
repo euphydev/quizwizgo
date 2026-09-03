@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { gameStore } from '@store/game';
 import queryFunctions from '../../utils/_queryProvider';
-import { Spinner } from '@components/ui';
+import { Spinner, FlipTile } from '@components/ui';
 
 interface QuizGameType {
   endpoint: string;
@@ -133,30 +133,29 @@ const QuizGame: React.FC<QuizGameType> = (props) => {
     }
   }, [props.endpoint, isSuccess, fetchedQuizData]);
 
-  const progress = ((duration - timer) / duration) * 251.2;
-
   if (isLoading) {
     return (
-      <div className="flex flex-col w-full pt-10 min-h-screen gap-10  bg-main place-content-start text-button-text p-4">
+      <div className="flex min-h-screen w-full flex-col place-content-start gap-10 bg-ink p-4 pt-10 text-paper">
         <Spinner />
-        <div className="self-center flex flex-col gap-2 text-center pt-20">
-          <span className="text-white font-bold text-3xl">Loading...</span>
-          <span className="text-white font-bold text-md">
-            QuizWizGo Data is sourced from{' '}
+        <div className="flex flex-col gap-2 self-center pt-20 text-center">
+          <span className="font-display text-3xl font-bold text-paper">
+            Shuffling your questions&hellip;
+          </span>
+          <span className="font-sans text-sm text-slate">
+            Questions come from{' '}
             <a
-              className="underline text-blue-200"
+              className="text-marquee underline"
               target="_blank"
+              rel="noreferrer"
               href="https://opentdb.com/"
             >
               opentdb.com
             </a>
+            .
           </span>
-          <span className="text-light font-bold text-sm">
-            If the loading persists, there might be a temporary issue with the
-            data source.
-          </span>
-          <span className="text-white font-bold tet-md">
-            Please try again later.
+          <span className="font-sans text-sm text-slate">
+            Taking a while? The source might be slow right now &mdash; sit
+            tight.
           </span>
         </div>
       </div>
@@ -165,78 +164,55 @@ const QuizGame: React.FC<QuizGameType> = (props) => {
 
   if (isError) {
     return (
-      <div className="flex flex-col w-full text-center pt-10 min-h-screen gap-5 bg-main font-bold text-white place-content-center p-4">
-        <span className=" text-2xl text-button">
-          Apologies, an error occurred. This could be due to an issue with the
-          API.
+      <div className="flex min-h-screen w-full flex-col place-content-center gap-5 bg-ink p-4 pt-10 text-center">
+        <span className="font-display text-2xl font-bold text-ember">
+          Couldn&apos;t load your quiz.
         </span>
-        <span className="text-white font-bold text-md">
-          Quiz data is sourced from{' '}
-          <a className="underline text-blue-200" href="https://opentdb.com/">
+        <span className="font-sans text-sm text-slate">
+          The question source might be down. Quiz data comes from{' '}
+          <a className="text-marquee underline" href="https://opentdb.com/">
             opentdb.com
           </a>
+          .
         </span>
         <button
           onClick={() => refetch()}
-          className="bg-light self-center font-bold w-56 hover:bg-button rounded-md p-1 px-4 text-background"
+          className="w-56 self-center rounded-lg bg-marquee p-2 px-4 font-sans font-semibold text-ink transition-transform hover:bg-marquee-dark active:translate-y-0.5"
         >
-          Try Again
+          Try again
         </button>
       </div>
     );
   }
   return (
     <>
-      <div className="flex flex-col lg:w-7/12 pt-10 min-h-screen gap-2 text-button-text place-content-start p-4">
-        <div className="flex self-center ">
-          <span className="text-sm font-bold">
-            {currentQuestionIndex + 1}/{quizData.length}
+      <div className="flex min-h-screen flex-col place-content-start gap-4 p-4 pt-10 lg:w-7/12">
+        <div className="flex flex-col items-center gap-2">
+          <span className="font-sans text-xs text-slate">
+            Question {currentQuestionIndex + 1} of {quizData.length}
           </span>
+          <div className="h-1 w-40 overflow-hidden rounded-full bg-ink-2">
+            <div
+              className="h-full bg-mint transition-[width]"
+              style={{
+                width: `${
+                  ((currentQuestionIndex + 1) / quizData.length) * 100
+                }%`,
+              }}
+            />
+          </div>
         </div>
-        <div className="pt-14">
+        <div className="flex justify-center pb-2">
+          <FlipTile value={timer} digits={3} label="seconds left" />
+        </div>
+        <div>
           {quizData.map((questionData: Question, index: number) => (
             <div
               key={index}
               className={`${index === currentQuestionIndex ? '' : 'hidden'}`}
             >
-              <div className="flex relative items-center justify-center ">
-                <div className="absolute top-[-50px] w-20 h-20 bg-secondary rounded-full">
-                  <svg
-                    className="absolute top-0 left-0 "
-                    viewBox="0 0 100 100"
-                    width="90"
-                    height="90"
-                  >
-                    <circle
-                      cx="45"
-                      cy="45"
-                      r="40"
-                      fill="none"
-                      strokeWidth="10"
-                      stroke="#ABD1C6"
-                    />
-                    <circle
-                      cx="45"
-                      cy="45"
-                      r="40"
-                      fill="none"
-                      strokeWidth="10"
-                      stroke="#004643B2"
-                      strokeDasharray="251.2"
-                      strokeDashoffset={progress}
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  <div className="absolute top-1/2 left-10 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-blue-500">
-                    <span className="font-bold text-lg text-background">
-                      {timer}
-                    </span>
-                    <span className="text-xs text-background">seconds</span>
-                  </div>
-                </div>
-              </div>
-              <div className="container bg-secondary py-10 text-stroke shadow-bottom-right p-3 rounded-xl">
-                <span className="font-bold">
+              <div className="ticket-edge rounded-lg bg-paper p-5 pt-6 text-ink shadow-ticket">
+                <span className="font-sans font-semibold">
                   {questionData.question
                     .replace(/&#039;/g, "'")
                     .replace(/&rsquo;/g, '’')
@@ -251,82 +227,78 @@ const QuizGame: React.FC<QuizGameType> = (props) => {
                     .replace(/&hellip;/g, '…')}
                 </span>
               </div>
-              <ul className="py-5">
-                {questionData.shuffled_options?.map((option, optionIndex) => (
-                  <li
-                    key={optionIndex}
-                    onClick={() => handleSelectedAnswer(option)}
-                    className={`btn flex justify-between hover:bg-button-3 text-md bg-secondary my-2 pr-3 pl-2 rounded-xl ${
-                      selectedAnswers[currentQuestionIndex] &&
-                      selectedAnswers[currentQuestionIndex].answer === option
-                        ? 'selected' // Apply a 'selected' class for styling
-                        : ''
-                    }`}
-                  >
-                    <label className="p-2 flex items-center w-full justify-between">
-                      {option
-                        .replace(/&#039;/g, "'")
-                        .replace(/&rsquo;/g, '’')
-                        .replace(/&quot;/g, '"')
-                        .replace(/&amp;/g, '&')
-                        .replace(/&lt;/g, '<')
-                        .replace(/&gt;/g, '>')
-                        .replace(/&nbsp;/g, ' ')
-                        .replace(/&copy;/g, '©')
-                        .replace(/&euro;/g, '€')
-                        .replace(/&reg;/g, '®')
-                        .replace(/&hellip;/g, '…')}
-                      {selectedAnswers[currentQuestionIndex] &&
-                        selectedAnswers[currentQuestionIndex].answer ===
-                          option && (
-                          <Image
-                            width={12}
-                            height={0}
-                            priority
-                            sizes="(max-width: 400px) 100vw, 100"
-                            className=""
-                            style={{
-                              backgroundColor: '#004643B2',
-                              borderRadius: '50%',
-                            }}
-                            src="/check.svg"
-                            alt="choice"
-                          />
+              <ul className="flex flex-col gap-2 py-5">
+                {questionData.shuffled_options?.map((option, optionIndex) => {
+                  const isSelected =
+                    selectedAnswers[currentQuestionIndex] &&
+                    selectedAnswers[currentQuestionIndex].answer === option;
+                  return (
+                    <li
+                      key={optionIndex}
+                      onClick={() => handleSelectedAnswer(option)}
+                      className={`cursor-pointer rounded-lg border px-4 py-3 font-sans text-ink transition-colors ${
+                        isSelected
+                          ? 'border-marquee bg-marquee/20'
+                          : 'border-transparent bg-paper hover:border-marquee/40'
+                      }`}
+                    >
+                      <label className="flex w-full cursor-pointer items-center justify-between gap-3">
+                        <span>
+                          {option
+                            .replace(/&#039;/g, "'")
+                            .replace(/&rsquo;/g, '’')
+                            .replace(/&quot;/g, '"')
+                            .replace(/&amp;/g, '&')
+                            .replace(/&lt;/g, '<')
+                            .replace(/&gt;/g, '>')
+                            .replace(/&nbsp;/g, ' ')
+                            .replace(/&copy;/g, '©')
+                            .replace(/&euro;/g, '€')
+                            .replace(/&reg;/g, '®')
+                            .replace(/&hellip;/g, '…')}
+                        </span>
+                        {isSelected && (
+                          <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-marquee">
+                            <Image
+                              width={14}
+                              height={14}
+                              src="/check.svg"
+                              alt="Selected"
+                            />
+                          </span>
                         )}
-                    </label>
-                  </li>
-                ))}
+                      </label>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
         </div>
-        <div className="flex flex-col">
-          <div className="flex">
-            <span className="text-main font-semibold text-center justify-between">
-              Your score matters! Share a screenshot, give feedback on
-              QuizWizGo&apos;s soft launch! Use{' '}
-              <span className="text-yellow">#euphydevQuizWizGo</span> & let
-              others see your achievement.
-            </span>
-          </div>
-          <div className="flex gap-4 p-4 justify-between font-semibold">
+        <div className="flex flex-col gap-4">
+          <span className="text-center font-sans text-sm text-slate">
+            Screenshot your score and tag{' '}
+            <span className="text-marquee">#euphydevQuizWizGo</span> &mdash;
+            we want to see it.
+          </span>
+          <div className="flex justify-between gap-4 font-sans font-semibold">
             <button
               onClick={handleBackQuestion}
-              className="hover:bg-button-3 w-full bg-secondary text-background rounded-md p-1 px-4"
+              className="w-full rounded-lg border border-slate/40 p-2 px-4 text-paper hover:border-marquee"
             >
               Back
             </button>
             {currentQuestionIndex + 1 !== quizData.length ? (
               <button
                 onClick={handleNextQuestion}
-                className="bg-light w-full hover:bg-button rounded-md p-1 px-4 text-background"
+                className="w-full rounded-lg bg-marquee p-2 px-4 text-ink transition-transform hover:bg-marquee-dark active:translate-y-0.5"
               >
                 Next
               </button>
             ) : (
               <button
                 onClick={handleSubmit}
-                className="bg-light w-full hover:bg-button rounded-md p-1 px-4 text-background"
+                className="w-full rounded-lg bg-marquee p-2 px-4 text-ink transition-transform hover:bg-marquee-dark active:translate-y-0.5"
               >
                 Submit
               </button>

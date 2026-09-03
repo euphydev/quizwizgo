@@ -2,6 +2,7 @@ import { gameStore } from '@store/game';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Footer from './Footer';
+import { ChipGroup } from '@components/ui';
 
 const category = [
   { id: 1, category: 'Any Category' },
@@ -125,75 +126,83 @@ const SelectAQuizComponent: React.FC<SelectAQuizType> = (props) => {
   };
 
   return (
-    <div className="flex flex-col gap-4 lg:w-7/12 jlace-content-center p-4">
-      <span className="font-bold text-2xl text-white">QuizWizGo Settings</span>
-      <span className="text-white">Number of Questions:</span>
-      <input
-        type="number"
-        value={selectedNumber}
-        onChange={(e) => handleSelectNumberFunc(Number(e.target.value))}
-        className="border text-button-text border-background p-2 rounded-md text-sm outline-none "
-        placeholder="Enter a number"
+    <div className="flex flex-col gap-6 p-4 lg:w-7/12">
+      <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-paper">
+        Round setup
+      </h2>
+
+      <div className="flex flex-col gap-2">
+        <span className="font-sans text-sm text-paper">
+          Number of questions
+        </span>
+        <div className="flex w-40 items-center gap-2">
+          <button
+            type="button"
+            aria-label="Fewer questions"
+            onClick={() => handleSelectNumberFunc(selectedNumber - 1)}
+            className="h-10 w-10 rounded-lg border border-slate/40 font-display text-xl text-paper hover:border-marquee"
+          >
+            −
+          </button>
+          <input
+            type="number"
+            value={selectedNumber}
+            onChange={(e) => handleSelectNumberFunc(Number(e.target.value))}
+            className="ticket-edge h-10 w-full rounded-lg bg-paper text-center font-display text-lg text-ink shadow-ticket outline-none focus-visible:ring-2 focus-visible:ring-marquee"
+          />
+          <button
+            type="button"
+            aria-label="More questions"
+            onClick={() => handleSelectNumberFunc(selectedNumber + 1)}
+            className="h-10 w-10 rounded-lg border border-slate/40 font-display text-xl text-paper hover:border-marquee"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <ChipGroup
+        name="category"
+        legend="Category"
+        value={String(selectedCategory.id)}
+        onChange={handleSelectCategoryFunc}
+        options={category.map((cat) => ({
+          id: String(cat.id),
+          label: cat.category,
+        }))}
       />
-      <span className="text-white">Select Category:</span>
-      <select
-        value={selectedCategory.id || ''}
-        onChange={(e) => handleSelectCategoryFunc(e.target.value)}
-        className="border text-button-text border-background p-2 rounded-md text-sm outline-none"
+
+      <ChipGroup
+        name="difficulty"
+        legend="Difficulty"
+        value={selectedDifficulty.id}
+        onChange={handleSelectDifficultyFunc}
+        options={difficulty.map((diff) => ({
+          id: diff.id,
+          label: diff.difficulty,
+        }))}
+      />
+
+      <ChipGroup
+        name="type"
+        legend="Question type"
+        value={selectedType.id}
+        onChange={handleSelectTypeFunc}
+        options={type.map((t) => ({ id: t.id, label: t.type }))}
+      />
+
+      <ul className="flex flex-col gap-1.5 font-sans text-sm text-slate">
+        <li>Score 75% or better and the confetti comes out.</li>
+        <li>Each question gives you 15 seconds &mdash; the clock is the real opponent.</li>
+        <li>Everything else is just for fun.</li>
+      </ul>
+
+      <button
+        onClick={handleStartQuiz}
+        className="w-full rounded-lg bg-marquee p-3 font-sans font-semibold text-ink transition-transform hover:bg-marquee-dark active:translate-y-0.5 lg:mt-2"
       >
-        {category.map((cat) => (
-          <option key={cat.id} value={cat.id}>
-            {cat.category}
-          </option>
-        ))}
-      </select>
-      <span className="text-white">Select Difficulty:</span>
-      <select
-        value={selectedDifficulty.id || ''}
-        onChange={(e) => handleSelectDifficultyFunc(e.target.value)}
-        className="border text-button-text border-background p-2 rounded-md text-sm outline-none"
-      >
-        {difficulty.map((cat) => (
-          <option key={cat.id} value={cat.id}>
-            {cat.difficulty}
-          </option>
-        ))}
-      </select>
-      <span className="text-white">Select Type:</span>
-      <select
-        value={selectedType.id || ''}
-        onChange={(e) => handleSelectTypeFunc(e.target.value)}
-        className="border text-button-text border-background p-2 rounded-md text-sm outline-none"
-      >
-        {type.map((cat) => (
-          <option key={cat.id} value={cat.id}>
-            {cat.type}
-          </option>
-        ))}
-      </select>
-      <div className="px-10">
-        <ul className="text-yellow text-sm">
-          <li className="list-disc">
-            Passing rate is 75%, and achieving it will display 🎉 confetti.
-          </li>
-          <li className="list-disc">
-            Complete each question within a 15-second timer. Keep an eye on the
-            clock! ⏱️
-          </li>
-          <li className="list-disc">
-            Above all, enjoy the QuizWizGo experience! Have fun challenging
-            yourself. 😊🧠
-          </li>
-        </ul>
-      </div>
-      <div className="lg:py-4">
-        <button
-          onClick={handleStartQuiz}
-          className="w-full rounded-2xl hover:bg-light hover:text-dark p-3 px-20 bg-yellow font-bold"
-        >
-          Let&apos;s Start
-        </button>
-      </div>
+        Let&apos;s start
+      </button>
     </div>
   );
 };
